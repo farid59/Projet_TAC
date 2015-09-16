@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Cobra minimal</title>
+
+
+</head>
+<body>
+
+<div id="topOfPage">
+  <button id="createNote">
+    Créer une note
+  </button>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../Libs/Cobra/js/socket.io.js"></script>
+    <script src="../Libs/Cobra/js/cobra.js"></script>
+
+    <script>
+      var note = {
+        creer: function(messageJSON) {
+          var divNote = document.createElement("div");
+          divNote.style.border="solid 1px black";
+          divNote.appendChild(document.createElement("h1").appendChild(document.createTextNode(messageJSON.champ0)));
+          divNote.appendChild(document.createElement("p").appendChild(document.createTextNode(messageJSON.champ1)));
+          divNote.appendChild(document.createElement("p").appendChild(document.createTextNode(messageJSON.champ2)));
+          divNote.appendChild(document.createElement("p").appendChild(document.createTextNode(messageJSON.champ3)));
+          divNote.appendChild(document.createElement("p").appendChild(document.createTextNode(messageJSON.champ4)));
+          document.getElementsByTagName("body")[0].appendChild(divNote);
+        }
+      }
+    </script>
+
+
+    <script>
+        var cobra = new Cobra();
+        var room = "testroomanicolas";
+        var socketId;
+        var apiUrl = 'http://cobra-framework.com:3000/api/events/' + room;
+        cobra.connect('http://cobra-framework.com:8080');
+        
+        cobra.connectionCallback = function () {
+            cobra.joinRoom(room);
+        }
+    
+        cobra.joinRoomCallback = function (roomName) {
+           // appel à l'API pour récupérer tous les messages de la room roomName
+           $.ajax({
+              type: 'GET',
+              url: apiUrl,
+              success: function () {
+                  console.log("success");
+              },
+
+              error: function () {
+                  console.log("error when retrieve events");
+              },
+
+              complete: function (result, status) {
+                  console.log("complete");
+                  for (var i = 0; i < result.responseJSON.Events.length; i++) {
+                     var content = JSON.parse(result.responseJSON.Events[i].content);
+                     note.creer(content.message);
+                  }
+                  
+                  
+                  // Pour envoyer un message dans toute la room excepté soi
+                  // cobra.sendMessage({content : "test"}, room, false);
+              }
+          });
+        }
+
+        cobra.messageReceivedCallback = function (message) {
+            if (message.message) {
+               // Message reçu, je le traite
+               console.log(message.message);
+               note.creer(message.message);
+            }
+        }
+    
+        cobra.clientJoinedRoomCallback = function(data){
+            // Un autre client a rejoint la room
+        }
+    
+        cobra.clientLeftRoomCallback = function(data){
+            // Un client a quitté la room
+        }
+
+
+    </script>
+
+    <script>
+      var bouton = document.getElementById("createNote");
+      var body = document.getElementsByTagName("body")[0];
+      var topPage = document.getElementById("topOfPage");
+      var boutonValidation = document.createElement("button");
+      boutonValidation.type="submit";
+      boutonValidation.appendChild(document.createTextNode("créer la note"));
+      var formulaire = document.createElement("form");
+        var champ1 = document.createElement("input");
+        champ1.type="text";
+        champ1.placeholder="Champ 0";
+        champ1.id="c0";
+        champ1.style.display="block";
+        formulaire.appendChild(champ1);
+        for(var i=1; i<5; i++) {
+          var champ = document.createElement("input");
+          champ.type="text";
+          champ.placeholder="Champ "+i;
+          champ.id="c"+i;
+          champ.style.display="block";
+          formulaire.appendChild(champ);
+        }
+        formulaire.appendChild(boutonValidation);
+
+
+      boutonValidation.addEventListener("click",function(){
+        console.log(document.getElementById("c1").value);
+        var message = {
+          champ0 : document.getElementById("c0").value,
+          champ1 : document.getElementById("c1").value, 
+          champ2 : document.getElementById("c2").value, 
+          champ3 : document.getElementById("c3").value, 
+          champ4 : document.getElementById("c4").value 
+        }
+
+        cobra.sendMessage(message,room,true);
+
+        topPage.removeChild(formulaire);
+        topPage.appendChild(bouton);
+      })
+
+      bouton.addEventListener("click",function(){
+        topPage.removeChild(bouton);
+        formulaire.reset();
+        topPage.appendChild(formulaire);
+        champ1.focus();
+      });
+    </script>
+</body>
+</html>

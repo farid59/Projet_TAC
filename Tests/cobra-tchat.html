@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Cobra minimal</title>
+
+    
+</head>
+<body>
+
+<div style="border: solid 1px black">
+  <h1>Note</h1>
+  <div id="note">
+    
+  </div>
+    <input id="newNote" type="text" style="width: 90%"></input>
+</div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../Libs/Cobra/js/socket.io.js"></script>
+    <script src="../Libs/Cobra/js/cobra.js"></script>
+
+    <script>
+        var cobra = new Cobra();
+        var room = "roomafarid";
+        var socketId;
+        var apiUrl = 'http://cobra-framework.com:3000/api/events/' + room;
+        cobra.connect('http://cobra-framework.com:8080');
+        
+        cobra.connectionCallback = function () {
+            cobra.joinRoom(room);
+        }
+    
+        cobra.joinRoomCallback = function (roomName) {
+           // appel à l'API pour récupérer tous les messages de la room roomName
+           $.ajax({
+              type: 'GET',
+              url: apiUrl,
+              success: function () {
+                  //console.log("success");
+              },
+
+              error: function () {
+                  //console.log("error when retrieve events");
+              },
+
+              complete: function (result, status) {
+                  //console.log("complete");
+                  for (var i = 0; i < result.responseJSON.Events.length; i++) {
+                     var content = result.responseJSON.Events[i].content;
+                     var message = JSON.parse(content);
+                     if (message.message.content) {
+
+                      var div = document.createElement("div");
+                       div.style.borderTop="solid 1px black";
+                       div.appendChild(document.createTextNode(message.message.content));
+                       document.getElementById("note").appendChild(div);
+                     }
+                     // recuperer les infos contenues dans les messages
+                     //console.log(content);
+                  }
+                  
+                  // Pour envoyer un message dans toute la room
+                  // cobra.sendMessage({content : "test"}, room, true);
+                  
+                  // Pour envoyer un message dans toute la room excepté soi
+                  // cobra.sendMessage({content : "test"}, room, false);
+              }
+          });
+        }
+
+        cobra.messageReceivedCallback = function (message) {
+           if (message.message) {
+               console.log(message.message.content);
+               var div = document.createElement("div");
+               div.style.borderTop="solid 1px black";
+               div.appendChild(document.createTextNode(message.message.content));
+               document.getElementById("note").appendChild(div);
+           }
+           
+        }
+    
+        cobra.clientJoinedRoomCallback = function(data){
+            console.log(data);
+        }
+    
+        cobra.clientLeftRoomCallback = function(data){
+            console.log(data);
+        }
+
+
+    </script>
+
+    <script type="text/javascript">
+      document.getElementById("newNote").addEventListener("change",function(){
+        cobra.sendMessage(
+          {
+            content : document.getElementById("newNote").value
+          }, room, true);
+        document.getElementById("newNote").value = "";  
+      });
+    </script>
+
+</body>
+</html>
