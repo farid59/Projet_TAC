@@ -43,6 +43,3 @@ Main.prototype = {
 		this.cobraConfig = new CobraConfig(this.room);
 	}
 }
-
-var main = new Main("testRoomANicolas");
-main.initialiser();
