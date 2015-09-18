@@ -1,0 +1,37 @@
+#zoneCreationNote {
+
+}
+
+#zoneCreationNote button.btn.btn-default {
+	width: 100%;
+	text-align: left;
+	color: #888;
+	font-style:italic;
+	cursor:text;
+	border-radius:0px;
+	border: none;
+}
+
+#zoneCreationNote button.btn.btn-default:hover {
+	background-color: #fff;
+}
+
+#zoneCreationNote input {
+	border-radius: 0px;
+	border: solid 1px transparent;
+	border-bottom-color: silver;
+	padding: 10px 10px 10px 15px;
+	font-size: 16px;
+	font-style: italic;
+	font-weight: bold;
+}
+
+#zoneCreationNote textarea {
+	border: none;
+	margin-top: 15px;
+}
+
+#zoneCreationNote {
+	display: block;
+	background-color: #fff;
+}
