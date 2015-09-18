@@ -9,9 +9,12 @@ NoteGenerator.prototype = {
 	zoneCreation: document.getElementById("zoneCreationNote"),
 	boutonCreation: document.createElement("button"),
 	formCreation: document.createElement("form"),
+
+	/**
+	 * Créé le bouton qui permet d'afficher le formulaire de création de note
+	 */
 	creerBouton: function() {
 		var ng = this;
-		// this.boutonCreation = document.createElement("button");
 		this.boutonCreation.className="btn btn-default";
 		this.boutonCreation.appendChild(document.createTextNode("Créer une note"));
 		this.boutonCreation.addEventListener("click",function() {
@@ -20,9 +23,12 @@ NoteGenerator.prototype = {
 		});
 		return this.boutonCreation;
 	},
+
+	/**
+	 * Créé le formulaire qui permet de créer une nouvelle note
+	 */
 	creerForm: function() {
 		var ng = this;
-		// this.formCreation = document.createElement("form");
 		this.formCreation.className="";
 
 		this.champTitre = document.createElement("input");
@@ -52,18 +58,30 @@ NoteGenerator.prototype = {
 			ng.resetForm();
 		});
 	},
+
+	/**
+	 * Modifie l'affichage pour que le bouton de création de note apparaisse
+	 */
 	afficherBouton: function() {
 		if (!this.boutonCreation) {
 			this.creerBouton();
 		}
 		this.zoneCreation.appendChild(this.boutonCreation);
 	},
+
+	/**
+	 * modifie l'affichage pour que le bouton de création de note disparaisse
+	 */
 	cacherBouton: function() {
 		if (!this.boutonCreation) {
 			this.creerBouton();
 		}
 		this.zoneCreation.removeChild(this.boutonCreation);
 	},
+
+	/**
+	 * modifie l'afficha epour que le formulaire de création de note apparaisse
+	 */
 	afficherForm: function() {
 		if (!this.formCreation) {
 			this.creerForm();
@@ -71,12 +89,21 @@ NoteGenerator.prototype = {
 		this.zoneCreation.appendChild(this.formCreation);
 		this.champTitre.focus();
 	},
+
+	/**
+	 * modifie l'afficha epour que le formulaire de création de note disparaisse
+	 */
 	cacherForm: function() {
 		if (!this.formCreation) {
 			this.creerForm();
 		}
 		this.zoneCreation.removeChild(this.formCreation);
 	},
+
+	/**
+	 * Permet de créer un message correctement formaté avec les informations saisies dans
+	 * le formulaire de création de note et de l'envoyer avec cobra
+	 */
 	submitForm: function() {
 		var message = {
 			auteur : main.user,
@@ -88,12 +115,12 @@ NoteGenerator.prototype = {
 		console.log(message);
 		main.cobraConfig.cobra.sendMessage(message,main.room,true);
 	},
+
+	/**
+	 * Permet de réinitialiser le formulaire pour qu'il soit vide lors
+	 * de sa prochaine utilisation
+	 */
 	resetForm: function() {
 		this.formCreation.reset();
 	}
 }
-
-// var noteGenerator = new NoteGenerator();
-// noteGenerator.creerForm();
-// noteGenerator.creerBouton();
-// noteGenerator.afficherBouton();
