@@ -1,0 +1,7 @@
+body {
+	background-color: #ddd;
+}
+
+.navbar-inverse #pseudoLabel {
+	color: #eee;
+}

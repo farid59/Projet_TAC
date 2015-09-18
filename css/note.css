@@ -1,0 +1,10 @@
+.noteContainer {
+	padding: 5px;
+}
+
+.note {
+	border: solid 1px red;
+	background-color: #fff;
+	box-shadow: green 2px 2px 5px;
+	height: 150px;
+}

@@ -78,18 +78,22 @@ NoteGenerator.prototype = {
 		this.zoneCreation.removeChild(this.formCreation);
 	},
 	submitForm: function() {
-		// TODO - Remplacer ces console.log par un envoi de message avec
-		// la librairie Cobra
-		console.log("Formulaire soumis");
-		console.log("Titre : "+this.champTitre.value);
-		console.log("Contenu : "+this.champContenu.value);
+		var message = {
+			auteur : main.user,
+			note : {
+				titre : this.champTitre.value,
+				contenu : this.champContenu.value
+			}
+		};
+		console.log(message);
+		main.cobraConfig.cobra.sendMessage(message,main.room,true);
 	},
 	resetForm: function() {
 		this.formCreation.reset();
 	}
 }
 
-var noteGenerator = new NoteGenerator();
-noteGenerator.creerForm();
-noteGenerator.creerBouton();
-noteGenerator.afficherBouton();
+// var noteGenerator = new NoteGenerator();
+// noteGenerator.creerForm();
+// noteGenerator.creerBouton();
+// noteGenerator.afficherBouton();
