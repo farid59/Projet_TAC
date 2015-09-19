@@ -59,6 +59,7 @@
 	<script type="text/javascript" src="./Libs/cobra/js/cobra.js"></script>
 	<script type="text/javascript" src="./Libs/cobra/js/socket.io.js"></script>
 
+	<script type="text/javascript" src="./js/Note.js"></script>
 	<script type="text/javascript" src="./js/CobraConfig.js"></script>
 	<script type="text/javascript" src="./js/User.js"></script>
 	<script type="text/javascript" src="./js/NoteGenerator.js"></script>
@@ -66,6 +67,13 @@
 	<script>
 		var main = new Main("test");
 		main.initialiser();
+
+		// var message = {"room":"test","message":{"auteur":{"pseudo":"Toto","id":"CWzw_HeFkKatTdVFAAK6"},"note":{"titre":"titre","contenu":"contenu"}},"date":"2015-09-19T08:20:00.633Z","socketId":"CWzw_HeFkKatTdVFAAK6","toAll":true};
+
+		// for (var i=0; i<12; i++) {
+		//     var note = new Note(message);
+		//     note.afficher();
+		// }
 	</script>
 
 </body>
