@@ -1,0 +1,13 @@
+{
+  "name": "cobra",
+  "_cacheHeaders": {
+    "ETag": "\"b735-51f507d9f56de\"",
+    "Last-Modified": "Wed, 09 Sep 2015 13:30:48 GMT",
+    "Content-Length": "46901",
+    "Content-Type": "application/zip"
+  },
+  "_release": "e-tag:b735-51f5",
+  "_source": "http://cobra-framework.com/cobra-min.zip",
+  "_target": "*",
+  "_originalSource": "http://cobra-framework.com/cobra-min.zip"
+}

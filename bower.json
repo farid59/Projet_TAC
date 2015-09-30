@@ -1,8 +1,0 @@
-{
-	"name": "Projet TAC",
-	"version": "0.0.1",
-	"dependencies": {
-		"bootstrap": "latest",
-		"cobra": "http://cobra-framework.com/cobra-min.zip"
-	}
-}
