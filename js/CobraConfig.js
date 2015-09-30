@@ -17,23 +17,27 @@ function CobraConfig(room) {
 		// évènements passés. Objet JSON retourné par le serveur :
 		// {"Error":true,"Message":"Error executing MySQL query"}
 
-		// $.ajax({
-		// 	type:'GET',
-		// 	url: CobraConfig.apiUrl,
-		// 	success: function() {
-		// 		console.log("Success");
-		// 	},
-		// 	error: function() {
-		// 		console.error("Error when retrive events");
-		// 	},
-		// 	complete: function(result, status) {
-		// 		console.log("Complete");
-		// 		console.log(result);
-		// 		for (var i = 0; i < result.responseJSON.Events.length; i++) {
-		// 			console.log(i);
-		// 		}
-		// 	}
-		// })
+		$.ajax({
+			type:'GET',
+			url: CobraConfig.apiUrl,
+			success: function() {
+				console.log("Success");
+			},
+			error: function() {
+				console.error("Error when retrive events");
+			},
+			complete: function(result, status) {
+				console.log("Complete");
+				console.log(result);
+				for (var i = 0; i < result.responseJSON.Events.length; i++) {
+					console.log("Message recu : ")
+					console.log(JSON.parse(result.responseJSON.Events[i].content));
+					var note = new Note(JSON.parse(result.responseJSON.Events[i].content));
+					// var note = new Note(JSONEvent.message);
+					note.afficher();
+				}
+			}
+		})
 	}
 
 	cobra.messageReceivedCallback = function(message) {
